@@ -1,0 +1,46 @@
+<%@val item: model.Izakaya %>
+<%@val s: skinny.Skinny %>
+
+<%-- Be aware of package imports.
+ 1. src/main/scala/templates/ScalatePackage.scala
+ 2. scalateTemplateConfig in project/Build.scala
+--%>
+
+<h3>${s.i18n.get("izakaya.detail")}</h3>
+<hr/>
+#for (notice <- s.flash.notice)
+  <p class="alert alert-info">${notice}</p>
+#end
+<table class="table table-bordered">
+<tbody>
+  <tr>
+    <th>${s.i18n.get("izakaya.id")}</th>
+    <td>${item.id}</td>
+  </tr>
+  <tr>
+    <th>${s.i18n.get("izakaya.name")}</th>
+    <td>${item.name}</td>
+  </tr>
+  <tr>
+    <th>${s.i18n.get("izakaya.category")}</th>
+    <td>${item.category}</td>
+  </tr>
+  <tr>
+    <th>${s.i18n.get("izakaya.priority")}</th>
+    <td>${item.priority}</td>
+  </tr>
+  <tr>
+    <th>${s.i18n.get("izakaya.address")}</th>
+    <td>${item.address}</td>
+  </tr>
+
+</tbody>
+</table>
+
+<hr/>
+<div class="form-actions">
+  <a class="btn btn-default" href="${s.url(Controllers.izakayaMaster.indexUrl)}">${s.i18n.get("backToList")}</a>
+  <a href="${s.url(Controllers.izakayaMaster.editUrl, "id" -> item.id)}" class="btn btn-info">${s.i18n.get("edit")}</a>
+  <a data-method="delete" data-confirm="${s.i18n.get("izakaya.delete.confirm")}"
+    href="${s.url(Controllers.izakayaMaster.destroyUrl, "id" -> item.id)}" rel="nofollow" class="btn btn-danger">${s.i18n.get("delete")}</a>
+</div>

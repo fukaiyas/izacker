@@ -1,0 +1,58 @@
+<%@val s: skinny.Skinny %>
+<%@val items: Seq[model.History] %>
+<%@val totalPages: Int %>
+
+<%-- Be aware of package imports.
+ 1. src/main/scala/templates/ScalatePackage.scala
+ 2. scalateTemplateConfig in project/Build.scala
+--%>
+
+<h3>${s.i18n.get("history.list")}</h3>
+<hr/>
+#for (notice <- s.flash.notice)
+  <p class="alert alert-info">${notice}</p>
+#end
+
+#if (totalPages > 1)
+  <ul class="pagination">
+    <li>
+      <a href="${s.url(Controllers.izakayaHistories.indexUrl, "page" -> 1)}">&laquo;</a>
+    </li>
+    #for (i <- (1 to totalPages))
+      <li>
+        <a href="${s.url(Controllers.izakayaHistories.indexUrl, "page" -> i)}">${i}</a>
+      </li>
+    #end
+    <li>
+      <a href="${s.url(Controllers.izakayaHistories.indexUrl, "page" -> totalPages)}">&raquo;</a>
+    </li>
+  </ul>
+#end
+
+<table class="table table-bordered">
+<thead>
+  <tr>
+    <th>${s.i18n.get("history.id")}</th>
+    <th>${s.i18n.get("history.izakaya")}</th>
+    <th>${s.i18n.get("history.date")}</th>
+    <th></th>
+  </tr>
+</thead>
+<tbody>
+  #for (item <- items)
+  <tr>
+    <td>${item.id}</td>
+    <td>${Izakaya.findById(item.id).get.name}</td>
+    <td>${item.date}</td>
+    <td>
+      <a href="${s.url(Controllers.izakayaHistories.showUrl, "id" -> item.id)}" class="btn btn-default">${s.i18n.get("detail")}</a>
+      <a href="${s.url(Controllers.izakayaHistories.editUrl, "id" -> item.id)}" class="btn btn-info">${s.i18n.get("edit")}</a>
+      <a data-method="delete" data-confirm="${s.i18n.get("history.delete.confirm")}"
+        href="${s.url(Controllers.izakayaHistories.destroyUrl, "id" -> item.id)}" rel="nofollow" class="btn btn-danger">${s.i18n.get("delete")}</a>
+    </td>
+  </tr>
+  #end
+</tbody>
+</table>
+
+<a href="${s.url(Controllers.izakayaHistories.newUrl)}" class="btn btn-primary">${s.i18n.get("new")}</a>

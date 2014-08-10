@@ -1,0 +1,38 @@
+<%@val item: model.History %>
+<%@val s: skinny.Skinny %>
+
+<%-- Be aware of package imports.
+ 1. src/main/scala/templates/ScalatePackage.scala
+ 2. scalateTemplateConfig in project/Build.scala
+--%>
+
+<h3>${s.i18n.get("history.detail")}</h3>
+<hr/>
+#for (notice <- s.flash.notice)
+  <p class="alert alert-info">${notice}</p>
+#end
+<table class="table table-bordered">
+<tbody>
+  <tr>
+    <th>${s.i18n.get("history.id")}</th>
+    <td>${item.id}</td>
+  </tr>
+  <tr>
+    <th>${s.i18n.get("history.izakaya")}</th>
+    <td>${item.izakaya}</td>
+  </tr>
+  <tr>
+    <th>${s.i18n.get("history.date")}</th>
+    <td>${item.date}</td>
+  </tr>
+
+</tbody>
+</table>
+
+<hr/>
+<div class="form-actions">
+  <a class="btn btn-default" href="${s.url(Controllers.izakayaHistories.indexUrl)}">${s.i18n.get("backToList")}</a>
+  <a href="${s.url(Controllers.izakayaHistories.editUrl, "id" -> item.id)}" class="btn btn-info">${s.i18n.get("edit")}</a>
+  <a data-method="delete" data-confirm="${s.i18n.get("history.delete.confirm")}"
+    href="${s.url(Controllers.izakayaHistories.destroyUrl, "id" -> item.id)}" rel="nofollow" class="btn btn-danger">${s.i18n.get("delete")}</a>
+</div>
