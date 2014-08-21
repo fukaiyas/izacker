@@ -1,6 +1,17 @@
-<h3>Hello World!</h3>
+<%@val s: skinny.Skinny %>
+<%@val suggestion: model.Izakaya %>
+
+<h3>トップ</h3>
+<hr/>
+<h4>本日のおすすめ ： ${suggestion.name}</h4>
+<p>
+    <a href="${s.url(Controllers.root.suggestionUrl)}">おすすめ一覧へ</a>
+</p>
 <hr/>
 <p>
-Your first Skinny app works!
+    <a href="${s.url(Controllers.izakayaHistories.indexUrl, "page" -> 1)}">履歴へ</a>
+</p>
+<p>
+    <a href="${s.url(Controllers.izakayaMaster.indexUrl, "page" -> 1)}">店一覧へ</a>
 </p>
 

@@ -19,7 +19,7 @@
   </tr>
   <tr>
     <th>${s.i18n.get("history.izakaya")}</th>
-    <td>${item.izakaya}</td>
+    <td>${Izakaya.findById(item.izakaya).get.name}</td>
   </tr>
   <tr>
     <th>${s.i18n.get("history.date")}</th>

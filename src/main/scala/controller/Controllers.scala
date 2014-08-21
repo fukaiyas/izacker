@@ -14,6 +14,7 @@ object Controllers {
 
   object root extends RootController with Routes {
     val indexUrl = get("/?")(index).as('index)
+    val suggestionUrl = get("/suggestions")(suggestions).as('suggestions)
   }
   object izakayaMaster extends _root_.controller.Izakaya_masterController with Routes {
   }

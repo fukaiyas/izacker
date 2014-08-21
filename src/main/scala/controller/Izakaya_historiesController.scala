@@ -1,5 +1,6 @@
 package controller
 
+import scalikejdbc.interpolation.{Implicits, SQLSyntax}
 import skinny._
 import skinny.validator._
 import _root_.controller._
@@ -37,4 +38,12 @@ class Izakaya_historiesController extends SkinnyResource with ApplicationControl
     "date" -> ParamType.LocalDate
   )
 
+  override def findResources(pageSize : Int, pageNo : Int) = {
+    System.err.println(pageSize + ":" + pageNo)
+    import Implicits._
+    //本当はページもコントロールしたいんだけど下記だとうまくいかない？
+    //model.findAllWithLimitOffset(pageSize, pageNo, Seq(sqls"date desc"))
+    //model.findAll(Seq(sqls"date desc"))
+    History.where().orderBy(sqls"date desc").limit(pageSize).offset(pageNo - 1).apply()
+  }
 }
