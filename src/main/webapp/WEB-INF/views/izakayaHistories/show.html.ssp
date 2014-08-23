@@ -18,8 +18,8 @@
     <td>${item.id}</td>
   </tr>
   <tr>
-    <th>${s.i18n.get("history.izakaya")}</th>
-    <td>${Izakaya.findById(item.izakaya).map(_.name)}</td>
+    <th>${s.i18n.get("history.izakaya_id")}</th>
+    <td>${item.izakaya.map(_.name)}</td>
   </tr>
   <tr>
     <th>${s.i18n.get("history.date")}</th>

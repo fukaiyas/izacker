@@ -1,4 +1,4 @@
-import model.Izakaya<%@val s: skinny.Skinny %>
+<%@val s: skinny.Skinny %>
 <%@val keyAndErrorMessages: skinny.KeyAndErrorMessages %>
 
 <%-- Be aware of package imports.
@@ -7,22 +7,22 @@ import model.Izakaya<%@val s: skinny.Skinny %>
 --%>
 
 <div class="form-group">
-  <label class="control-label" for="izakaya">
-    ${s.i18n.get("history.izakaya")}
+  <label class="control-label" for="izakaya_id">
+    ${s.i18n.get("history.izakaya_id")}
   </label>
   <div class="controls row">
-    <div class="${if(keyAndErrorMessages.hasErrors("izakaya")) "has-error" else ""}">
+    <div class="${if(keyAndErrorMessages.hasErrors("izakaya_id")) "has-error" else ""}">
       <div class="col-xs-12">
-        <select name="izakaya" class="form-control">
-            #for (idName <- Izakaya.nameList)
-                <option value="${idName._1}">${idName._2}</option>
+        <select name="izakaya_id" class="form-control">
+            #for (izakaya <- Izakaya.findAll())
+                <option value="${izakaya.id}">${izakaya.name}</option>
             #end
         </select>
       </div>
     </div>
-    #if (keyAndErrorMessages.hasErrors("izakaya"))
+    #if (keyAndErrorMessages.hasErrors("izakaya_id"))
       <div class="col-xs-12 has-error">
-        #for (error <- keyAndErrorMessages.getErrors("izakaya"))
+        #for (error <- keyAndErrorMessages.getErrors("izakaya_id"))
           <label class="control-label">${error}</label>
         #end
       </div>

@@ -1,9 +1,7 @@
 package controller
 
-import scalikejdbc.interpolation.{ Implicits, SQLSyntax }
 import skinny._
 import skinny.validator._
-import _root_.controller._
 import model.History
 
 class IzakayaHistoriesController extends SkinnyResource with ApplicationController {
@@ -20,30 +18,30 @@ class IzakayaHistoriesController extends SkinnyResource with ApplicationControll
 
   override def createParams = Params(params).withDate("date")
   override def createForm = validation(createParams,
-    paramKey("izakaya") is required & numeric & longValue,
+    paramKey("izakaya_id") is required & numeric & longValue,
     paramKey("date") is required & dateFormat
   )
   override def createFormStrongParameters = Seq(
-    "izakaya" -> ParamType.Long,
+    "izakaya_id" -> ParamType.Long,
     "date" -> ParamType.LocalDate
   )
 
   override def updateParams = Params(params).withDate("date")
   override def updateForm = validation(updateParams,
-    paramKey("izakaya") is required & numeric & longValue,
+    paramKey("izakaya_id") is required & numeric & longValue,
     paramKey("date") is required & dateFormat
   )
   override def updateFormStrongParameters = Seq(
-    "izakaya" -> ParamType.Long,
+    "izakaya_id" -> ParamType.Long,
     "date" -> ParamType.LocalDate
   )
 
   override def findResources(pageSize: Int, pageNo: Int) = {
     logger.debug(pageSize + ":" + pageNo)
-    import Implicits._
-    //本当はページもコントロールしたいんだけど下記だとうまくいかない？
-    //model.findAllWithLimitOffset(pageSize, pageNo, Seq(sqls"date desc"))
-    //model.findAll(Seq(sqls"date desc"))
-    History.where().orderBy(sqls"date desc").limit(pageSize).offset(pageNo - 1).apply()
+    val h = History.defaultAlias
+    History.findAllWithPagination(
+      pagination = Pagination.page(pageNo).per(pageSize),
+      orderings = Seq(h.date.desc)
+    )
   }
 }

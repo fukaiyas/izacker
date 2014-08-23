@@ -28,7 +28,4 @@ object Izakaya extends SkinnyCRUDMapper[Izakaya] with TimestampsFeature[Izakaya]
     updatedAt = rs.get(rn.updatedAt)
   )
 
-  lazy val nameList: List[(Long, String)] = {
-    Izakaya.where().apply().map(i => (i.id, i.name))
-  }
 }
