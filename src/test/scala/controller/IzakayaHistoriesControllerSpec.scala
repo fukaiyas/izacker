@@ -7,23 +7,23 @@ import org.joda.time._
 import model._
 
 // NOTICE before/after filters won't be executed by default
-class Izakaya_masterControllerSpec extends FunSpec with Matchers with BeforeAndAfterAll with DBSettings {
+class IzakayaHistoriesControllerSpec extends FunSpec with Matchers with BeforeAndAfterAll with DBSettings {
 
   override def afterAll() {
-    Izakaya.deleteAll()
+    History.deleteAll()
   }
 
-  def createMockController = new Izakaya_masterController with MockController
-  def newIzakaya = FactoryGirl(Izakaya).create()
+  def createMockController = new IzakayaHistoriesController with MockController
+  def newHistory = FactoryGirl(History).create()
 
-  describe("Izakaya_masterController") {
+  describe("izakayaHistoriesController") {
 
-    describe("shows izakaya master") {
+    describe("shows izakaya histories") {
       it("shows HTML response") {
         val controller = createMockController
         controller.showResources()
         controller.status should equal(200)
-        controller.renderCall.map(_.path) should equal(Some("/izakaya_master/index"))
+        controller.renderCall.map(_.path) should equal(Some("/izakayaHistories/index"))
         controller.contentType should equal("text/html; charset=utf-8")
       }
 
@@ -32,19 +32,19 @@ class Izakaya_masterControllerSpec extends FunSpec with Matchers with BeforeAndA
         val controller = createMockController
         controller.showResources()
         controller.status should equal(200)
-        controller.renderCall.map(_.path) should equal(Some("/izakaya_master/index"))
+        controller.renderCall.map(_.path) should equal(Some("/izakayaHistories/index"))
         controller.contentType should equal("application/json; charset=utf-8")
       }
     }
 
-    describe("shows a izakaya") {
+    describe("shows a history") {
       it("shows HTML response") {
-        val izakaya = newIzakaya
+        val history = newHistory
         val controller = createMockController
-        controller.showResource(izakaya.id)
+        controller.showResource(history.id)
         controller.status should equal(200)
-        controller.requestScope[Izakaya]("item") should equal(Some(izakaya))
-        controller.renderCall.map(_.path) should equal(Some("/izakaya_master/show"))
+        controller.requestScope[History]("item") should equal(Some(history))
+        controller.renderCall.map(_.path) should equal(Some("/izakayaHistories/show"))
       }
     }
 
@@ -53,18 +53,16 @@ class Izakaya_masterControllerSpec extends FunSpec with Matchers with BeforeAndA
         val controller = createMockController
         controller.newResource()
         controller.status should equal(200)
-        controller.renderCall.map(_.path) should equal(Some("/izakaya_master/new"))
+        controller.renderCall.map(_.path) should equal(Some("/izakayaHistories/new"))
       }
     }
 
-    describe("creates a izakaya") {
+    describe("creates a history") {
       it("succeeds with valid parameters") {
         val controller = createMockController
         controller.prepareParams(
-          "name" -> "dummy",
-          "category" -> "dummy",
-          "priority" -> Long.MaxValue.toString(),
-          "address" -> "dummy")
+          "izakaya" -> Long.MaxValue.toString(),
+          "date" -> skinny.util.DateTimeUtil.toString(new LocalDate()))
         controller.createResource()
         controller.status should equal(200)
       }
@@ -74,34 +72,32 @@ class Izakaya_masterControllerSpec extends FunSpec with Matchers with BeforeAndA
         controller.prepareParams() // no parameters
         controller.createResource()
         controller.status should equal(400)
-        controller.errorMessages.size should be >(0)
+        controller.errorMessages.size should be > (0)
       }
     }
 
     it("shows a resource edit input form") {
-      val izakaya = newIzakaya
+      val history = newHistory
       val controller = createMockController
-      controller.editResource(izakaya.id)
+      controller.editResource(history.id)
       controller.status should equal(200)
-        controller.renderCall.map(_.path) should equal(Some("/izakaya_master/edit"))
+      controller.renderCall.map(_.path) should equal(Some("/izakayaHistories/edit"))
     }
 
-    it("updates a izakaya") {
-      val izakaya = newIzakaya
+    it("updates a history") {
+      val history = newHistory
       val controller = createMockController
       controller.prepareParams(
-        "name" -> "dummy",
-        "category" -> "dummy",
-        "priority" -> Long.MaxValue.toString(),
-        "address" -> "dummy")
-      controller.updateResource(izakaya.id)
+        "izakaya" -> Long.MaxValue.toString(),
+        "date" -> skinny.util.DateTimeUtil.toString(new LocalDate()))
+      controller.updateResource(history.id)
       controller.status should equal(200)
     }
 
-    it("destroys a izakaya") {
-      val izakaya = newIzakaya
+    it("destroys a history") {
+      val history = newHistory
       val controller = createMockController
-      controller.destroyResource(izakaya.id)
+      controller.destroyResource(history.id)
       controller.status should equal(200)
     }
 

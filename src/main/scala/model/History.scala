@@ -10,8 +10,7 @@ case class History(
   izakaya: Long,
   date: LocalDate,
   createdAt: DateTime,
-  updatedAt: DateTime
-)
+  updatedAt: DateTime)
 
 object History extends SkinnyCRUDMapper[History] with TimestampsFeature[History] {
   override lazy val tableName = "izakaya_histories"

@@ -5,11 +5,11 @@ import skinny.validator._
 import _root_.controller._
 import model.Izakaya
 
-class Izakaya_masterController extends SkinnyResource with ApplicationController {
+class IzakayaMasterController extends SkinnyResource with ApplicationController {
   protectFromForgery()
 
   override def model = Izakaya
-  override def resourcesName = "izakaya_master"
+  override def resourcesName = "izakayaMaster"
   override def resourceName = "izakaya"
 
   override def resourcesBasePath = s"/${toSnakeCase(resourcesName)}"

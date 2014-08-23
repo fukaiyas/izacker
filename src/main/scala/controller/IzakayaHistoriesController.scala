@@ -1,16 +1,16 @@
 package controller
 
-import scalikejdbc.interpolation.{Implicits, SQLSyntax}
+import scalikejdbc.interpolation.{ Implicits, SQLSyntax }
 import skinny._
 import skinny.validator._
 import _root_.controller._
 import model.History
 
-class Izakaya_historiesController extends SkinnyResource with ApplicationController {
+class IzakayaHistoriesController extends SkinnyResource with ApplicationController {
   protectFromForgery()
 
   override def model = History
-  override def resourcesName = "izakaya_histories"
+  override def resourcesName = "izakayaHistories"
   override def resourceName = "history"
 
   override def resourcesBasePath = s"/${toSnakeCase(resourcesName)}"
@@ -38,8 +38,8 @@ class Izakaya_historiesController extends SkinnyResource with ApplicationControl
     "date" -> ParamType.LocalDate
   )
 
-  override def findResources(pageSize : Int, pageNo : Int) = {
-    System.err.println(pageSize + ":" + pageNo)
+  override def findResources(pageSize: Int, pageNo: Int) = {
+    logger.debug(pageSize + ":" + pageNo)
     import Implicits._
     //本当はページもコントロールしたいんだけど下記だとうまくいかない？
     //model.findAllWithLimitOffset(pageSize, pageNo, Seq(sqls"date desc"))
