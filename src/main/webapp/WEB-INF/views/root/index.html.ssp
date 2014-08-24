@@ -1,9 +1,13 @@
 <%@val s: skinny.Skinny %>
-<%@val suggestion: model.Izakaya %>
+<%@val suggestion: Option[model.Izakaya] %>
 
 <h3>トップ</h3>
 <hr/>
-<h4>本日のおすすめ ： ${suggestion.name}</h4>
+#if (suggestion.isDefined)
+  <h4>本日のおすすめ ： ${suggestion.map(_.name)}</h4>
+#else
+  <h4>おすすめが見つかりませんでした</h4>
+#end
 <p>
     <a href="${s.url(Controllers.root.suggestionUrl)}">おすすめ一覧へ</a>
 </p>

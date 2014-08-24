@@ -8,7 +8,7 @@ import org.joda.time._
 import _root_.controller.Controllers
 import model._
 
-class Izakaya_historiesController_IntegrationTestSpec extends ScalatraFlatSpec with SkinnyTestSupport with BeforeAndAfterAll with DBSettings {
+class IzakayaHistoriesController_IntegrationTestSpec extends ScalatraFlatSpec with SkinnyTestSupport with BeforeAndAfterAll with DBSettings {
   addFilter(Controllers.izakayaHistories, "/*")
 
   override def afterAll() {
@@ -62,20 +62,20 @@ class Izakaya_historiesController_IntegrationTestSpec extends ScalatraFlatSpec w
     post(s"/izakaya_histories",
       "izakaya" -> Long.MaxValue.toString(),
       "date" -> skinny.util.DateTimeUtil.toString(new LocalDate())) {
-      logBodyUnless(403)
-      status should equal(403)
-    }
+        logBodyUnless(403)
+        status should equal(403)
+      }
 
     withSession("csrf-token" -> "valid_token") {
       post(s"/izakaya_histories",
         "izakaya" -> Long.MaxValue.toString(),
         "date" -> skinny.util.DateTimeUtil.toString(new LocalDate()),
         "csrf-token" -> "valid_token") {
-        logBodyUnless(302)
-        status should equal(302)
-        val id = header("Location").split("/").last.toLong
-        History.findById(id).isDefined should equal(true)
-      }
+          logBodyUnless(302)
+          status should equal(302)
+          val id = header("Location").split("/").last.toLong
+          History.findById(id).isDefined should equal(true)
+        }
     }
   }
 
@@ -90,18 +90,18 @@ class Izakaya_historiesController_IntegrationTestSpec extends ScalatraFlatSpec w
     put(s"/izakaya_histories/${newHistory.id}",
       "izakaya" -> Long.MaxValue.toString(),
       "date" -> skinny.util.DateTimeUtil.toString(new LocalDate())) {
-      logBodyUnless(403)
-      status should equal(403)
-    }
+        logBodyUnless(403)
+        status should equal(403)
+      }
 
     withSession("csrf-token" -> "valid_token") {
       put(s"/izakaya_histories/${newHistory.id}",
         "izakaya" -> Long.MaxValue.toString(),
         "date" -> skinny.util.DateTimeUtil.toString(new LocalDate()),
         "csrf-token" -> "valid_token") {
-        logBodyUnless(302)
-        status should equal(302)
-      }
+          logBodyUnless(302)
+          status should equal(302)
+        }
     }
   }
 

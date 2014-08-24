@@ -12,8 +12,7 @@ case class Izakaya(
   priority: Long,
   address: String,
   createdAt: DateTime,
-  updatedAt: DateTime
-)
+  updatedAt: DateTime)
 
 object Izakaya extends SkinnyCRUDMapper[Izakaya] with TimestampsFeature[Izakaya] {
   override lazy val tableName = "izakaya_master"
@@ -29,7 +28,4 @@ object Izakaya extends SkinnyCRUDMapper[Izakaya] with TimestampsFeature[Izakaya]
     updatedAt = rs.get(rn.updatedAt)
   )
 
-  lazy val nameList : List[(Long, String)] = {
-    Izakaya.where().apply().map(i => (i.id, i.name))
-  }
 }

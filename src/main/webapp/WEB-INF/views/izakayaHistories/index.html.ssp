@@ -33,7 +33,7 @@
 <thead>
   <tr>
     <th>${s.i18n.get("history.id")}</th>
-    <th>${s.i18n.get("history.izakaya")}</th>
+    <th>${s.i18n.get("history.izakaya_id")}</th>
     <th>${s.i18n.get("history.date")}</th>
     <th></th>
   </tr>
@@ -42,7 +42,7 @@
   #for (item <- items)
   <tr>
     <td>${item.id}</td>
-    <td>${Izakaya.findById(item.izakaya).get.name}</td>
+    <td>${item.izakaya.map(_.name)}</td>
     <td>${item.date}</td>
     <td>
       <a href="${s.url(Controllers.izakayaHistories.showUrl, "id" -> item.id)}" class="btn btn-default">${s.i18n.get("detail")}</a>
