@@ -1,6 +1,33 @@
 <%@val s: skinny.Skinny %>
+<%@val suggestList: Seq[model.Izakaya] %>
 
 <h3>おすすめ一覧</h3>
 <hr/>
+#for (notice <- s.flash.notice)
+    <p class="alert alert-info">${notice}</p>
+#end
 <hr/>
+
+<table class="table table-bordered">
+<thead>
+    <tr>
+        <th>${s.i18n.get("izakaya.id")}</th>
+        <th>${s.i18n.get("izakaya.name")}</th>
+        <th>${s.i18n.get("izakaya.category")}</th>
+        <th>${s.i18n.get("izakaya.priority")}</th>
+        <th>${s.i18n.get("izakaya.address")}</th>
+    </tr>
+</thead>
+<tbody>
+    #for (item <- suggestList)
+        <tr>
+            <td>${item.id}</td>
+            <td>${item.name}</td>
+            <td>${item.category}</td>
+            <td>${item.priority}</td>
+            <td>${item.address}</td>
+        </tr>
+    #end
+</tbody>
+</table>
 

@@ -25,11 +25,13 @@ class RootController extends ApplicationController {
       orderings = Seq(History.defaultAlias.date.desc)
     ).headOption.getOrElse(History(-1, -1, None, LocalDate.now, DateTime.now, DateTime.now)).izakayaId
 
-    val recentPeriod = LocalDate.fromDateFields(new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * 30 * 2))
+    val recentPeriod = LocalDate.fromDateFields(new Date(System.currentTimeMillis() - 1000L * 60 * 60 * 24 * 30 * 2))
     val weight: Map[Long, Int] = History.findAllBy(where = sqls"date >= $recentPeriod")
       .groupBy(_.izakayaId)
       .mapValues(_.size + 1)
     logger.debug(weight)
+    logger.debug(History.findAllBy(where = sqls"date >= $recentPeriod"))
+    logger.debug(new Date(System.currentTimeMillis() - 1000L * 60 * 60 * 24 * 30 * 2))
 
     Izakaya.findAllBy(where = sqls"id <> $last")
       .sortBy(izakaya => izakaya.priority * 100 / weight.getOrElse(izakaya.id, 1))
