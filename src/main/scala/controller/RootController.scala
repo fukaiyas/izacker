@@ -9,15 +9,15 @@ import scalikejdbc._
 class RootController extends ApplicationController {
 
   def index = {
-    set("suggestion" -> chooseIzakaya())
+    set("suggestion" -> suggestList().headOption)
     render("/root/index")
   }
   def suggestions = {
+    set("suggestList" -> suggestList())
     render("/root/suggestions")
   }
 
-  private def chooseIzakaya(): Option[Izakaya] = {
-    scala.util.Random.shuffle(Izakaya.findAll()).headOption
+  private def suggestList(): List[Izakaya] = {
 
     val last: Long = History.findAllWithLimitOffset(
       limit = 1,
@@ -28,13 +28,12 @@ class RootController extends ApplicationController {
     val recentPeriod = LocalDate.fromDateFields(new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * 30 * 2))
     val weight: Map[Long, Int] = History.findAllBy(where = sqls"date >= $recentPeriod")
       .groupBy(_.izakayaId)
-      .mapValues(_.size)
+      .mapValues(_.size + 1)
     logger.debug(weight)
 
     Izakaya.findAllBy(where = sqls"id <> $last")
       .sortBy(izakaya => izakaya.priority * 100 / weight.getOrElse(izakaya.id, 1))
-      .headOption
+      .reverse
   }
-
 }
 
